@@ -1,6 +1,6 @@
 <?php
 // Load Goutte
-require_once '../vendor/autoload.php';
+require_once __DIR__ .'/../vendor/autoload.php';
 // Load Slack token
 require_once __DIR__ . '/../config/config.php';
 use Goutte\Client;
@@ -8,7 +8,7 @@ use Goutte\Client;
 date_default_timezone_set('America/Vancouver');
 function logMessage($message)
 {
-    $log = 'log.txt';
+    $log = __DIR__ . '/log.txt';
     file_put_contents($log, date("Y/m/d H:i:s", time()) . " ${message}\n", FILE_APPEND | LOCK_EX);
 }
 
@@ -21,7 +21,7 @@ $crawler = $client->request('GET', 'http://bbs.jpcanada.com/search.php?w=%BF%E6%
 
 $index = 0;
 $entry_title = $crawler->filter('small')->each(function ($name) use (&$index) {
-    $file = 'date.txt';
+    $file = __DIR__ . '/date.txt';
     if ($index == 2) {
         $new = $name->text();
         echo "new: ${new}\n";
