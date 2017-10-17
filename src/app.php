@@ -1,8 +1,9 @@
 <?php
 // Load Goutte
-require_once __DIR__ .'/../vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 // Load Slack token
 require_once __DIR__ . '/../config/config.php';
+
 use Goutte\Client;
 
 date_default_timezone_set('America/Vancouver');
@@ -24,18 +25,21 @@ $entry_title = $crawler->filter('small')->each(function ($name) use (&$index) {
     $file = __DIR__ . '/date.txt';
     if ($index == 2) {
         $new = $name->text();
-        echo "new: ${new}\n";
         $old = file_get_contents($file);
-        echo "old: ${old}\n";
+
         if (strcmp($old, $new) != 0) {
-            logMessage('NEW RICE COOKER IS AVAILABLE!!');
-            $text = '【NEW RICE COOKER IS AVAILABLE!!】
-https://www.jpcanada.com/search.php?w=%BF%E6%C8%D3%B4%EF&encode=EUC-JP&bbs=1&num=25';
-            $text = urlencode($text);
+            $text = urlencode('【NEW RICE COOKER IS AVAILABLE!!】
+https://www.jpcanada.com/search.php?w=%BF%E6%C8%D3%B4%EF&encode=EUC-JP&bbs=1&num=25');
             $url = "https://slack.com/api/chat.postMessage?token=" . SLACK_TOKEN . "&channel=@kento&text=${text}";
+
+            // Send to Slack
             file_get_contents($url);
 
+            // Save new date to file
             file_put_contents($file, $new);
+
+            // Log
+            logMessage("NEW RICE COOKER IS AVAILABLE!! -> ${new}");
         } else {
             logMessage('no update!');
         }
