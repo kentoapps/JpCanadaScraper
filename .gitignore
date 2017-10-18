@@ -3,4 +3,4 @@ vendor/
 .DS_Store
 .idea
 /src/log.txt
-/src/date.txt
+/date/

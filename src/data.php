@@ -8,6 +8,6 @@ define('WORDS', [
     'COFFEE MAKER'
 ]);
 define('FILES', [
-    '/rice_date.txt',
-    '/coffee_date.txt'
+    'rice_date.txt',
+    'coffee_date.txt'
 ]);

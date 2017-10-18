@@ -5,6 +5,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../config/config.php';
 // Load data
 require_once __DIR__ . '/data.php';
+const DATE_DIR = __DIR__ . '/../date/';
 
 use Goutte\Client;
 
@@ -25,7 +26,7 @@ for($i = 0; $i < count(URLS); $i++){
 
     $index = 0;
     $entry_title = $crawler->filter('small')->each(function ($name) use ($i, &$index) {
-        $file = __DIR__ . FILES[$i];
+        $file = DATE_DIR . FILES[$i];
         if ($index == 2) {
             $new = $name->text();
             $old = file_get_contents($file);
